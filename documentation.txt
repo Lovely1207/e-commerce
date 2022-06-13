@@ -74,10 +74,4 @@ https://www.udemy.com/course/apache-kafka/
 header:product-catalog param:product-catalog
 
 header:product-catalog param:product-catalog
-
-
-feign.FeignException$BadRequest: [400] during [GET] to [http://product-catalog/product-catalog/products]
- [ProductFeignClient#getProductList()]: [{"timestamp":"2022-06-13T16:03:15.259+00:00","status":400,"error":"Bad Request","path":"/product-catalog/products"}]
-	at feign.FeignException.clientErrorStatus(FeignException.java:213) ~[feign-core-11.8.jar:na]
-	at feign.FeignException.errorStatus(FeignException.java:194) ~[feign-core-11.8.jar:na]
-	at feign.FeignException.errorStatus(FeignException.java:185) ~[feign-core-11.8.jar:na]
+s
