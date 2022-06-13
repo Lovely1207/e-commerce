@@ -1,0 +1,83 @@
+EUREKA IMPLEMENTATION
+clean install -dmaven.test.skip=true
+
+Eureka Server
+1.dependency
+<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+			<version>3.1.1</version>
+</dependency>
+2.@EnableEurekaServer
+3.application.properties
+server.port=8761
+spring.application.name=netflix-eureka-naming-server
+eureka.client.register-with-eureka=false
+eureka.client.fetch-registry=false
+
+Eureka Client
+1.dependency
+<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<version>3.1.1</version>
+</dependency>
+2.@EnableEurekaClient
+3.eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
+
+CLOUD CONFIG IMPLEMENTATION
+spring cloud config server
+1.dependency
+<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-config-server</artifactId>
+</dependency>
+2.@EnableConfigServer
+3.spring.cloud.config.server.git.uri=file:///D:/Spring-Microservices/spring-microservices-v2/03.microservices/git-localconfig-repo
+
+product catalog
+1.starter-config dependency
+<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+</dependency>
+2.add properties in file
+spring.application.name=product-catalog
+spring.config.import=optional:configserver:http://localhost:8888
+product-catalog.maxStock=20
+product-catalog.minStock=10
+spring.profiles.active=dev
+spring.cloud.config.profile=dev
+3.@Component,@ConfigurationProperties("product-catalog") add class file
+
+FEIGN CLIENT 
+1.Feign client dependency
+<dependency>
+	<groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-cloud-starter-openfeign</artifactId>
+	<version>3.1.1</version> 
+</dependency>
+2.@EnableFeignClients in BOOTSTRAP file
+3.@FeignClient(name="product-catalog")  for product-catalog service
+
+
+API GATEWAY
+spring.cloud.gateway.discovery.locator.enabled=true
+http://localhost:8765/PRODUCT-CATALOG/products
+http://localhost:8765/CUSTOMER-SERVICE/customer/products
+http://localhost:8765/product-catalog/getStock
+security
+docker
+
+https://www.udemy.com/course/apache-kafka/
+
+header:product-catalog param:product-catalog
+
+header:product-catalog param:product-catalog
+
+
+feign.FeignException$BadRequest: [400] during [GET] to [http://product-catalog/product-catalog/products]
+ [ProductFeignClient#getProductList()]: [{"timestamp":"2022-06-13T16:03:15.259+00:00","status":400,"error":"Bad Request","path":"/product-catalog/products"}]
+	at feign.FeignException.clientErrorStatus(FeignException.java:213) ~[feign-core-11.8.jar:na]
+	at feign.FeignException.errorStatus(FeignException.java:194) ~[feign-core-11.8.jar:na]
+	at feign.FeignException.errorStatus(FeignException.java:185) ~[feign-core-11.8.jar:na]
